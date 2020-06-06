@@ -45,28 +45,30 @@ class _HomePageState extends State<HomePage> {
                   loop: true,
                 ),
               )),
-          Expanded(
+          SizedBox(
+              height: 100,
               child: GridView(
                   physics: BouncingScrollPhysics(),
                   scrollDirection: Axis.horizontal,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, //横轴三个子widget
+                      crossAxisCount: 2,
                       mainAxisSpacing: 5,
                       childAspectRatio: 1.0 //宽高比为1时，子widget
                       ),
                   children: <Widget>[
-                Icon(Icons.ac_unit),
-                Icon(Icons.airport_shuttle),
-                Icon(Icons.all_inclusive),
-                Icon(Icons.beach_access),
-                Icon(Icons.cake),
-                Icon(Icons.cake),
-                Icon(Icons.cake),
-                Icon(Icons.free_breakfast),
-                Icon(Icons.airport_shuttle),
-                Icon(Icons.all_inclusive)
-              ])),
-          Expanded(
+                    Icon(Icons.ac_unit),
+                    Icon(Icons.airport_shuttle),
+                    Icon(Icons.all_inclusive),
+                    Icon(Icons.beach_access),
+                    Icon(Icons.cake),
+                    Icon(Icons.cake),
+                    Icon(Icons.cake),
+                    Icon(Icons.free_breakfast),
+                    Icon(Icons.airport_shuttle),
+                    Icon(Icons.all_inclusive)
+                  ])),
+          SizedBox(
+            height: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
@@ -97,6 +99,34 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
+          SizedBox(
+            height: 80,
+            child: Padding(
+                padding: EdgeInsets.only(left: 10.0, right: 10.0),
+                child: SizedBox(
+                  height: 50,
+                  child: Swiper(
+                    itemBuilder: (BuildContext context, int index) {
+                      return new Image.network(
+                        "http://via.placeholder.com/350x80",
+                        fit: BoxFit.fill,
+                      );
+                    },
+                    itemCount: 3,
+                    pagination: new SwiperPagination(),
+                    control:
+                        new SwiperControl(iconNext: null, iconPrevious: null),
+                    autoplay: true,
+                    loop: true,
+                  ),
+                )),
+          ),
+          Expanded(
+              child: ListView.builder(
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return ListTile(title: Text("标题"), leading: Text("不知道是啥"));
+                  }))
         ],
       ),
     );
