@@ -24,7 +24,7 @@ class _ContainerPageState extends State<ContainerPage> {
         'assets/images/ic_tab_home_normal.png'),
     _Item('服务', 'assets/images/ic_tab_subject_active.png',
         'assets/images/ic_tab_subject_normal.png'),
-    _Item('工惠商城', 'assets/images/ic_tab_group_active.png',
+    _Item('商城', 'assets/images/ic_tab_group_active.png',
         'assets/images/ic_tab_group_normal.png'),
     _Item('我的', 'assets/images/ic_tab_profile_active.png',
         'assets/images/ic_tab_profile_normal.png')

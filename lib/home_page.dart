@@ -46,55 +46,59 @@ class _HomePageState extends State<HomePage> {
                 ),
               )),
           SizedBox(
-              height: 100,
-              child: GridView(
-                  physics: BouncingScrollPhysics(),
-                  scrollDirection: Axis.horizontal,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 1.0 //宽高比为1时，子widget
-                      ),
-                  children: <Widget>[
-                    Icon(Icons.ac_unit),
-                    Icon(Icons.airport_shuttle),
-                    Icon(Icons.all_inclusive),
-                    Icon(Icons.beach_access),
-                    Icon(Icons.cake),
-                    Icon(Icons.cake),
-                    Icon(Icons.cake),
-                    Icon(Icons.free_breakfast),
-                    Icon(Icons.airport_shuttle),
-                    Icon(Icons.all_inclusive)
-                  ])),
+              height: 200,
+              child: GridView.count(
+                crossAxisCount: 2,
+                scrollDirection: Axis.horizontal,
+                childAspectRatio: 1.0,
+                children: <Widget>[
+                  Icon(Icons.ac_unit),
+                  Icon(Icons.airport_shuttle),
+                  Icon(Icons.all_inclusive),
+                  Icon(Icons.beach_access),
+                  Icon(Icons.cake),
+                  Icon(Icons.cake),
+                  Icon(Icons.cake),
+                  Icon(Icons.free_breakfast),
+                  Icon(Icons.airport_shuttle),
+                  Icon(Icons.all_inclusive)
+                ],
+              )),
           SizedBox(
             height: 80,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Column(
+                Expanded(
+                    child: Column(
                   children: [
-                    Text("工会资讯"),
+                    Text("新闻资讯"),
                     Text("看.新闻资讯", style: TextStyle(height: 2.2))
                   ],
+                )),
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text("新闻资讯"),
+                      Text("看.新闻资讯", style: TextStyle(height: 2.2))
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text("工会资讯"),
-                    Text("看.新闻资讯", style: TextStyle(height: 2.2))
-                  ],
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text("新闻资讯"),
+                      Text("看.新闻资讯", style: TextStyle(height: 2.2))
+                    ],
+                  ),
                 ),
-                Column(
-                  children: [
-                    Text("工会资讯"),
-                    Text("看.新闻资讯", style: TextStyle(height: 2.2))
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text("工会资讯"),
-                    Text("看.新闻资讯", style: TextStyle(height: 2.2))
-                  ],
+                Expanded(
+                  child: Column(
+                    children: [
+                      Text("新闻资讯"),
+                      Text("看.新闻资讯", style: TextStyle(height: 2.2))
+                    ],
+                  ),
                 )
               ],
             ),
