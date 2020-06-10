@@ -163,7 +163,6 @@ class _HomePageState extends State<HomePage> {
                 itemCount: 3,
                 pagination: new SwiperPagination(),
                 control: new SwiperControl(iconNext: null, iconPrevious: null),
-                autoplay: true,
                 loop: true,
               ),
             )),

@@ -1,5 +1,10 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hello/colors.dart';
+import 'package:flutter_hello/dimens.dart';
 import 'package:flutter_hello/home_page.dart';
+import 'package:flutter_hello/load_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ContainerPage extends StatefulWidget {
   ContainerPage({Key key}) : super(key: key);
@@ -8,81 +13,116 @@ class ContainerPage extends StatefulWidget {
   _ContainerPageState createState() => _ContainerPageState();
 }
 
-class _Item {
-  String name, activeIcon, normalIcon;
-
-  _Item(this.name, this.activeIcon, this.normalIcon);
-}
-
 class _ContainerPageState extends State<ContainerPage> {
-  List<Widget> pages;
-  List<BottomNavigationBarItem> itemList;
+  List<Widget> _pageList;
+  List<BottomNavigationBarItem> _list;
+  final PageController _pageController = PageController();
   final defaultItemColor = Color.fromARGB(255, 125, 125, 125);
-
-  final itemNames = [
-    _Item('首页', 'assets/images/ic_tab_home_active.png',
-        'assets/images/ic_tab_home_normal.png'),
-    _Item('服务', 'assets/images/ic_tab_subject_active.png',
-        'assets/images/ic_tab_subject_normal.png'),
-    _Item('商城', 'assets/images/ic_tab_group_active.png',
-        'assets/images/ic_tab_group_normal.png'),
-    _Item('我的', 'assets/images/ic_tab_profile_active.png',
-        'assets/images/ic_tab_profile_normal.png')
-  ];
+  int _selectIndex = 0;
+  final List<String> _appBarTitles = ['首页', '服务', '商城', '我的'];
 
   @override
   void initState() {
     super.initState();
-    if (pages == null) {
-      pages = [HomePage(), HomePage(), HomePage(), HomePage()];
-    }
-    if (itemList == null) {
-      itemList = itemNames
-          .map((e) => BottomNavigationBarItem(
-              icon: Image.asset(e.normalIcon, width: 30.0, height: 30.0),
-              title: Text(e.name, style: TextStyle(fontSize: 20.0)),
-              activeIcon: Image.asset(e.activeIcon, width: 30.0, height: 30.0)))
-          .toList();
-    }
+    _pageList = [HomePage(), HomePage(), HomePage(), HomePage()];
   }
 
-  int _selectIndex = 0;
+  void _onPageChanged(int index) {
+    setState(() {
+      _selectIndex = index;
+    });
+    _pageController.jumpToPage(_selectIndex);
+  }
 
-  //Stack（层叠布局）+Offstage组合,解决状态被重置的问题
-  Widget _getPagesWidget(int index) {
-    return Offstage(
-      offstage: _selectIndex != index,
-      child: TickerMode(
-        enabled: _selectIndex == index,
-        child: pages[index],
-      ),
-    );
+  List<BottomNavigationBarItem> _buildBottomNavigationBarItem() {
+    if (_list == null) {
+      var _tabImages = [
+        [
+          const LoadAssetImage(
+            'img_foot_1',
+            width: 25.0,
+            color: Colours.unselected_item_color,
+          ),
+          const LoadAssetImage(
+            'img_foot_1',
+            width: 25.0,
+            color: Colours.app_main,
+          ),
+        ],
+        [
+          const LoadAssetImage(
+            'img_foot_2',
+            width: 25.0,
+            color: Colours.unselected_item_color,
+          ),
+          const LoadAssetImage(
+            'img_foot_2',
+            width: 25.0,
+            color: Colours.app_main,
+          ),
+        ],
+        [
+          const LoadAssetImage(
+            'img_foot_3',
+            width: 25.0,
+            color: Colours.unselected_item_color,
+          ),
+          const LoadAssetImage(
+            'img_foot_3',
+            width: 25.0,
+            color: Colours.app_main,
+          ),
+        ],
+        [
+          const LoadAssetImage(
+            'img_foot_4',
+            width: 25.0,
+            color: Colours.unselected_item_color,
+          ),
+          const LoadAssetImage(
+            'img_foot_4',
+            width: 25.0,
+            color: Colours.app_main,
+          ),
+        ]
+      ];
+      _list = List.generate(4, (i) {
+        return BottomNavigationBarItem(
+            icon: _tabImages[i][0],
+            activeIcon: _tabImages[i][1],
+            title: Padding(
+              padding: const EdgeInsets.only(top: 1.5),
+              child: Text(
+                _appBarTitles[i],
+                key: Key(_appBarTitles[i]),
+              ),
+            ));
+      });
+    }
+    return _list;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [
-        _getPagesWidget(0),
-        _getPagesWidget(1),
-        _getPagesWidget(2),
-        _getPagesWidget(3),
-      ]),
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: _onPageChanged,
+        children: _pageList,
+        physics: const NeverScrollableScrollPhysics(), // 禁止滑动
+      ),
       backgroundColor: Color.fromARGB(255, 248, 248, 248),
       bottomNavigationBar: BottomNavigationBar(
-        items: itemList,
-        onTap: (int index) {
-          setState(() {
-            _selectIndex = index;
-          });
-        },
-        selectedFontSize: 9,
-        unselectedFontSize: 9,
-        iconSize: 24,
-        currentIndex: _selectIndex,
-        fixedColor: Color.fromARGB(255, 0, 188, 96),
-        type: BottomNavigationBarType.fixed,
-      ),
+          elevation: 5.0,
+          iconSize: 21.0,
+          currentIndex: _selectIndex,
+          selectedFontSize: Dimens.font_sp10,
+          unselectedFontSize: Dimens.font_sp10,
+          selectedItemColor: Theme.of(context).primaryColor,
+          unselectedItemColor: Colours.unselected_item_color,
+          type: BottomNavigationBarType.fixed,
+          items: _buildBottomNavigationBarItem(),
+          onTap: _onPageChanged),
     );
   }
 }
