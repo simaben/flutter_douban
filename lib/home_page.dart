@@ -1,4 +1,9 @@
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hello/constant.dart';
+import 'package:flutter_hello/model.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomePage extends StatefulWidget {
@@ -9,6 +14,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<BannerModel> banners = List();
+  List<HomeIcon> homeIcons = List();
+
+  @override
+  void initState() {
+    super.initState();
+    _getBanner();
+    _getHomeIcon();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,18 +48,18 @@ class _HomePageState extends State<HomePage> {
 
   _renderListItem(BuildContext context, int index) {
     if (index == 0) {
-      return new Padding(
+      return Padding(
           padding: EdgeInsets.all(10.0),
           child: SizedBox(
             height: 150,
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return new Image.network(
-                  "http://via.placeholder.com/350x150",
+                  banners[index].banner,
                   fit: BoxFit.fill,
                 );
               },
-              itemCount: 3,
+              itemCount: banners.length,
               pagination: new SwiperPagination(),
               control: new SwiperControl(iconNext: null, iconPrevious: null),
               autoplay: true,
@@ -58,18 +73,7 @@ class _HomePageState extends State<HomePage> {
             crossAxisCount: 2,
             scrollDirection: Axis.horizontal,
             childAspectRatio: 1.0,
-            children: <Widget>[
-              Icon(Icons.ac_unit),
-              Icon(Icons.airport_shuttle),
-              Icon(Icons.all_inclusive),
-              Icon(Icons.beach_access),
-              Icon(Icons.cake),
-              Icon(Icons.cake),
-              Icon(Icons.cake),
-              Icon(Icons.free_breakfast),
-              Icon(Icons.airport_shuttle),
-              Icon(Icons.all_inclusive)
-            ],
+            children: _renderHomeIcons(),
           ));
     } else if (index == 2) {
       return new SizedBox(
@@ -170,5 +174,51 @@ class _HomePageState extends State<HomePage> {
     } else {
       return ListTile(title: Text("标题"), leading: Text("不知道是啥"));
     }
+  }
+
+  void _getBanner() {
+    var tag = "banner";
+    Constant.httpManager
+        .getAsync(url: "/home/banner", tag: tag)
+        .then((value) => parserData(value, tag));
+  }
+
+  void _getHomeIcon() {
+    var tag = "icon";
+    Constant.httpManager
+        .getAsync(url: "/home/icon", tag: "icon")
+        .then((value) => parserData(value, tag));
+  }
+
+  void parserData(Response response, String tag) {
+    Map<String, dynamic> data = response.data;
+    if (tag == "banner") {
+      List<dynamic> list = data['data'];
+      if (list != null) {
+        banners.clear();
+        list.forEach((element) {
+          var responseModel = BannerModel.fromJson(element);
+          banners.add(responseModel);
+        });
+      }
+    } else if (tag == "icon") {
+      List<dynamic> list = data['data']['home'];
+      if (list != null) {
+        homeIcons.clear();
+        list.forEach((element) {
+          var homeIcon = HomeIcon.fromJson(element);
+          homeIcons.add(homeIcon);
+        });
+      }
+    }
+    setState(() {});
+  }
+
+  _renderHomeIcons() {
+    List<Widget> childList = List();
+    homeIcons.forEach((element) {
+
+    });
+    return childList;
   }
 }

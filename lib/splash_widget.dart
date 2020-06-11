@@ -33,12 +33,6 @@ class _SplashWidgetState extends State<SplashWidget> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        radius: ScreenUtils.screenW(context) / 3,
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                            AssetImage(Constant.ASSETS_IMG + 'home.png'),
-                      ),
                       Padding(
                         padding: EdgeInsets.only(top: 20.0),
                         child: Text(
@@ -81,11 +75,6 @@ class _SplashWidgetState extends State<SplashWidget> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Image.asset(
-                                  Constant.ASSETS_IMG + 'ic_launcher.png',
-                                  width: 50.0,
-                                  height: 50.0,
-                                ),
                                 Padding(
                                   padding: EdgeInsets.only(left: 10.0),
                                   child: Text(

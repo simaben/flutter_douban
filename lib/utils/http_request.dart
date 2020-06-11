@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_common_utils/http/http_error.dart';
 import 'package:flutter_common_utils/log_util.dart';
+import 'package:flutter_hello/model.dart';
 
 ///http请求成功回调
 typedef HttpSuccessCallback<T> = void Function(dynamic data);
@@ -25,7 +26,7 @@ typedef T JsonParse<T>(dynamic data);
 /// @author Cheney
 class HttpManager {
   ///同一个CancelToken可以用于多个请求，当一个CancelToken取消时，所有使用该CancelToken的请求都会被取消，一个页面对应一个CancelToken。
-  Map<String, CancelToken> _cancelTokens =  Map<String, CancelToken>();
+  Map<String, CancelToken> _cancelTokens = Map<String, CancelToken>();
 
   ///超时时间
   static const int CONNECT_TIMEOUT = 30000;
@@ -385,11 +386,10 @@ class HttpManager {
   ///[params] url请求参数支持restful
   ///[options] 请求配置
   ///[tag] 请求统一标识，用于取消网络请求
-  Future<T> getAsync<T>({
+  Future<Response> getAsync({
     @required String url,
     Map<String, dynamic> params,
     Options options,
-    JsonParse<T> jsonParse,
     @required String tag,
   }) async {
     return _requestAsync(
@@ -397,7 +397,6 @@ class HttpManager {
       method: GET,
       params: params,
       options: options,
-      jsonParse: jsonParse,
       tag: tag,
     );
   }
@@ -409,12 +408,11 @@ class HttpManager {
   ///[params] url请求参数支持restful
   ///[options] 请求配置
   ///[tag] 请求统一标识，用于取消网络请求
-  Future<T> postAsync<T>({
+  Future<Response> postAsync({
     @required String url,
     data,
     Map<String, dynamic> params,
     Options options,
-    JsonParse<T> jsonParse,
     @required String tag,
   }) async {
     return _requestAsync(
@@ -423,7 +421,6 @@ class HttpManager {
       data: data,
       params: params,
       options: options,
-      jsonParse: jsonParse,
       tag: tag,
     );
   }
@@ -435,13 +432,12 @@ class HttpManager {
   ///[params] url请求参数支持restful
   ///[options] 请求配置
   ///[tag] 请求统一标识，用于取消网络请求
-  Future<T> _requestAsync<T>({
+  Future<Response> _requestAsync({
     @required String url,
     String method,
     data,
     Map<String, dynamic> params,
     Options options,
-    JsonParse<T> jsonParse,
     @required String tag,
   }) async {
     //检查网络是否连接
@@ -473,26 +469,12 @@ class HttpManager {
         _cancelTokens[tag] = cancelToken;
       }
 
-      Response<Map<String, dynamic>> response = await _client.request(url,
+      var response = await _client.request(url,
           queryParameters: params,
           data: data,
           options: options,
           cancelToken: cancelToken);
-      String statusCode = response.data["statusCode"];
-      if (statusCode == "0") {
-        //成功
-        if (jsonParse != null) {
-          return jsonParse(response.data["data"]);
-        } else {
-          return response.data["data"];
-        }
-      } else {
-        //失败
-        String message = response.data["statusDesc"];
-        LogUtil.v("请求服务器出错：$message");
-        //只能用 Future，外层有 try catch
-        return Future.error((HttpError(statusCode, message)));
-      }
+      return response;
     } on DioError catch (e, s) {
       LogUtil.v("请求出错：$e\n$s");
       throw (HttpError.dioError(e));
@@ -614,7 +596,7 @@ class HttpManager {
           options: options,
           cancelToken: cancelToken);
 
-      String statusCode = response.data["statusCode"];
+      String statusCode = response.data["code"];
       if (statusCode == "0") {
         //成功
         if (jsonParse != null) {

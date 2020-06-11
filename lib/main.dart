@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
+import 'package:flutter_hello/constant.dart';
 import 'package:flutter_hello/splash_widget.dart';
+import 'package:flutter_hello/utils/http_request.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,10 +23,7 @@ class MyApp extends StatelessWidget {
     return RestartWidget(
         child: MaterialApp(
       theme: ThemeData(backgroundColor: Colors.white),
-      home: Scaffold(
-        resizeToAvoidBottomPadding: false,
-        body: SplashWidget()
-      ),
+      home: Scaffold(resizeToAvoidBottomPadding: false, body: SplashWidget()),
     ));
   }
 }
@@ -54,6 +54,14 @@ class _RestartWidgetState extends State<RestartWidget> {
     setState(() {
       key = UniqueKey();
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    Constant.httpManager.init(
+        baseUrl: "http://rap2.taobao.org:38080/app/mock/257536",
+        interceptors: [LogInterceptor()]);
   }
 
   @override
