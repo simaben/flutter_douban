@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_common_utils/log_util.dart';
+import 'package:flustars/flustars.dart';
 
 void log2Console(Object object) {
   LogUtil.v(object);

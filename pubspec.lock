@@ -58,14 +58,14 @@ packages:
     source: hosted
     version: "1.14.12"
   common_utils:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: common_utils
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.2.1"
   connectivity:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: connectivity
       url: "https://pub.flutter-io.cn"
@@ -120,13 +120,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "3.0.9"
-  event_bus:
-    dependency: transitive
-    description:
-      name: event_bus
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.1"
   file:
     dependency: transitive
     description:
@@ -134,6 +127,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "5.1.0"
+  flustars:
+    dependency: "direct main"
+    description:
+      name: flustars
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.3.2"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -146,13 +146,6 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "1.4.0"
-  flutter_common_utils:
-    dependency: "direct main"
-    description:
-      name: flutter_common_utils
-      url: "https://pub.flutter-io.cn"
-    source: hosted
-    version: "1.1.0"
   flutter_easyrefresh:
     dependency: "direct main"
     description:

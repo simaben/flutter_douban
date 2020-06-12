@@ -31,10 +31,10 @@ dependencies:
   fluttertoast: 4.0.0
   flutter_swiper : 1.1.6
   dio: 3.0.9
-  flutter_common_utils: 1.1.0
+  flustars:  0.3.2
   cached_network_image: 2.2.0+1
-  common_utils: 1.2.1
   flutter_easyrefresh: 2.1.1
+  connectivity: 0.4.8+6
 
 
   

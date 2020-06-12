@@ -1,11 +1,9 @@
 import 'dart:core';
-
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_common_utils/http/http_error.dart';
-import 'package:flutter_common_utils/log_util.dart';
-import 'package:flutter_hello/model.dart';
+import 'package:flutter_hello/utils/http_error.dart';
 
 ///http请求成功回调
 typedef HttpSuccessCallback<T> = void Function(dynamic data);

@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
   List<BannerModel> banners = List();
   List<News> newsList = List();
   List<HomeIcon> homeIcons = List();
@@ -105,7 +105,6 @@ class _HomePageState extends State<HomePage> {
                   height: 100,
                   child: Swiper(
                     key: UniqueKey(),
-                    controller: _swiperController,
                     itemBuilder: (BuildContext context, int index) {
                       return new Image.network(
                         banners[index].banner,
@@ -114,6 +113,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     autoplay: false,
                     loop: false,
+                    autoplayDisableOnInteraction: true,
                     itemCount: banners.length,
                   ),
                 ),
@@ -139,7 +139,7 @@ class _HomePageState extends State<HomePage> {
         .map((element) => Container(
             margin: EdgeInsets.only(left: homeTabSpace, top: 10),
             decoration: BoxDecoration(
-                color: Colors.red,
+                color: Colors.white,
                 borderRadius: BorderRadius.all(Radius.circular(10.0))),
             width: homeTabSize,
             child: Column(
@@ -160,9 +160,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _renderHomeIcons() {
-    List<Widget> childList = List();
-    homeIcons.forEach((element) {
-      var child = Column(
+   return homeIcons.map((element) => InkWell(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           LoadImage(
@@ -172,10 +171,28 @@ class _HomePageState extends State<HomePage> {
           ),
           Text(element.name)
         ],
-      );
-      childList.add(child);
-    });
-    return childList;
+      ),
+    )).toList();
+
+//
+//    List<Widget> childList = List();
+//
+//
+//    homeIcons.forEach((element) {
+//      var child =  Column(
+//        mainAxisAlignment: MainAxisAlignment.center,
+//        children: <Widget>[
+//          LoadImage(
+//            element.img,
+//            width: iconSize,
+//            height: iconSize,
+//          ),
+//          Text(element.name)
+//        ],
+//      );
+//      childList.add(child);
+//    });
+//    return childList;
   }
 
   void _getBanner() {
@@ -246,4 +263,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   _onLoad() {}
+
+  @override
+  bool get wantKeepAlive => true; //保持页面状态 重写方法
+
 }

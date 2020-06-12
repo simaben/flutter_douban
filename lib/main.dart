@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return RestartWidget(
         child: MaterialApp(
-      theme: ThemeData(backgroundColor: Colors.white),
+      theme: ThemeData(backgroundColor: Color.fromARGB(0, 244, 244, 244)),
       home: Scaffold(resizeToAvoidBottomPadding: false, body: SplashWidget()),
     ));
   }
@@ -59,9 +60,14 @@ class _RestartWidgetState extends State<RestartWidget> {
   @override
   void initState() {
     super.initState();
+    _initAsync();
     Constant.httpManager.init(
         baseUrl: "http://rap2.taobao.org:38080/app/mock/257536",
         interceptors: [LogInterceptor()]);
+  }
+
+  Future<void> _initAsync() async {
+    await SpUtil.getInstance();
   }
 
   @override

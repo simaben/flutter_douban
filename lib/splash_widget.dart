@@ -1,9 +1,8 @@
 import 'dart:async';
+import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello/screen_utils.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter_hello/container_page.dart';
-import 'package:flutter_hello/constant.dart';
 
 class SplashWidget extends StatefulWidget {
   SplashWidget({Key key}) : super(key: key);
@@ -14,7 +13,12 @@ class SplashWidget extends StatefulWidget {
 
 class _SplashWidgetState extends State<SplashWidget> {
   var container = ContainerPage();
-  bool showAd = true;
+  bool showAd;
+  @override
+  void initState() {
+    super.initState();
+    showAd = SpUtil.getBool("showAd");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +65,7 @@ class _SplashWidgetState extends State<SplashWidget> {
                                   if (value) {
                                     setState(() {
                                       showAd = false;
+                                      SpUtil.putBool("showAd", showAd);
                                     });
                                   }
                                 },
@@ -97,6 +102,7 @@ class _SplashWidgetState extends State<SplashWidget> {
       ],
     );
   }
+
 }
 
 class CountDownWidget extends StatefulWidget {
