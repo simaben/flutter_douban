@@ -25,7 +25,7 @@ class LcfarmLogInterceptor extends Interceptor {
   /// Print request header [Options.headers]
   bool requestHeader;
 
-  /// Print request data [Options.data]
+  /// Print request data [Options.rows]
   bool requestBody;
 
   /// Print [Response.data]

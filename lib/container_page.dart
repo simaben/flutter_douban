@@ -4,6 +4,9 @@ import 'package:flutter_hello/colors.dart';
 import 'package:flutter_hello/dimens.dart';
 import 'package:flutter_hello/home_page.dart';
 import 'package:flutter_hello/load_image.dart';
+import 'package:flutter_hello/mine_page.dart';
+import 'package:flutter_hello/service_page.dart';
+import 'package:flutter_hello/shop_page.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class ContainerPage extends StatefulWidget {
@@ -24,7 +27,7 @@ class _ContainerPageState extends State<ContainerPage> {
   @override
   void initState() {
     super.initState();
-    _pageList = [HomePage(), HomePage(), HomePage(), HomePage()];
+    _pageList = [HomePage(), ServicePage(), ShopPage(), MinePage()];
   }
 
   void _onPageChanged(int index) {
