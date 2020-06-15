@@ -8,8 +8,15 @@ class ServicePage extends StatefulWidget {
 class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("服务页面"),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("服务"),
+      ),
     );
+
+
   }
+
+  void _onClick() {}
 }

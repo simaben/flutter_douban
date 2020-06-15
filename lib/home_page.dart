@@ -262,7 +262,9 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return null;
   }
 
-  _onLoad() {}
+  _onLoad() {
+
+  }
 
   @override
   bool get wantKeepAlive => true; //保持页面状态 重写方法

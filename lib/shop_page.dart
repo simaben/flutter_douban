@@ -8,8 +8,15 @@ class ShopPage extends StatefulWidget {
 class _ShopPageState extends State<ShopPage> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text("商城页面"),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("商城"),
+      ),
     );
+
+
   }
+
+  void _onClick() {}
 }
