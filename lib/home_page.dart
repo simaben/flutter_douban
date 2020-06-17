@@ -70,27 +70,38 @@ class _HomePageState extends State<HomePage>
             controller: _scrollController,
             child: Column(
               children: <Widget>[
-                SizedBox(
-                  height: ScreenUtil().setHeight(300),
-                  child: Swiper(
-                    key: UniqueKey(),
-                    controller: _swiperController,
-                    itemBuilder: (BuildContext context, int index) {
-                      return new Image.network(
-                        banners[index].banner,
-                        fit: BoxFit.fill,
-                      );
-                    },
-                    itemCount: banners.length,
-                    pagination: new SwiperPagination(),
-                    control:
-                        new SwiperControl(iconNext: null, iconPrevious: null),
-                    autoplay: true,
-                    loop: true,
-                  ),
+                Stack(
+                  children: [
+                    Container(
+                      decoration:
+                          BoxDecoration(color: Theme.of(context).primaryColor),
+                      height: ScreenUtil().setHeight(150),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(10.0),
+                      height: ScreenUtil().setHeight(300),
+                      child: Swiper(
+                        key: UniqueKey(),
+                        controller: _swiperController,
+                        itemBuilder: (BuildContext context, int index) {
+                          return new Image.network(
+                            banners[index].banner,
+                            fit: BoxFit.fill,
+                          );
+                        },
+                        itemCount: banners.length,
+                        pagination: new SwiperPagination(),
+                        control: new SwiperControl(
+                            iconNext: null, iconPrevious: null),
+                        autoplay: true,
+                        loop: true,
+                      ),
+                    )
+                  ],
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
+                    padding: EdgeInsets.only(top: 5.0),
+                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 5.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -173,15 +184,56 @@ class _HomePageState extends State<HomePage>
   _renderHomeNewsList(BuildContext ctx, int index) {
     var item = newsList[index];
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
-      child: ListTile(
-          trailing: LoadImage(item.img),
-          title: Text(
-            item.title,
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: ScreenUtil().setSp(23, allowFontScalingSelf: true)),
-          )),
+      padding: EdgeInsets.only(top: 10.0),
+      decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+              bottom: Divider.createBorderSide(ctx, color: Colors.grey))),
+      child: Column(children: [
+        Row(
+          children: [
+            Expanded(
+                child: Container(
+                    padding: EdgeInsets.only(left: 10, top: 5, bottom: 5),
+                    child: Text(
+                      item.title,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: ScreenUtil()
+                              .setSp(23, allowFontScalingSelf: true)),
+                    ))),
+            LoadImage(
+              item.img,
+              width: 80,
+              height: 60,
+            )
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(left: 10),
+              child: Text(
+                '工会要闻',
+                style: TextStyle(
+                    color: Colors.redAccent,
+                    fontSize: ScreenUtil().setSp(20.0)),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 10.0, bottom: 10.0),
+              padding: EdgeInsets.only(right: 10),
+              child: Text(
+                '123阅读',
+                style: TextStyle(
+                    color: Colors.grey, fontSize: ScreenUtil().setSp(20.0)),
+              ),
+            )
+          ],
+        )
+      ]),
     );
   }
 
