@@ -90,8 +90,7 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 Container(
-                    padding: EdgeInsets.only(top: 5.0),
-                    margin: EdgeInsets.all(10.0),
+                    margin: EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(Radius.circular(10))),
@@ -102,8 +101,9 @@ class _HomePageState extends State<HomePage>
                       scrollDirection: Axis.horizontal,
                       children: _renderHomeIcons(),
                     )),
-                SizedBox(
-                    height: ScreenUtil().setHeight(150),
+                Container(
+                    margin: EdgeInsets.only(right: 10, top: 10, bottom: 10.0),
+                    height: ScreenUtil().setHeight(130),
                     child: Row(
                       children: _renderHomeTabs(),
                     )),
@@ -143,23 +143,26 @@ class _HomePageState extends State<HomePage>
     return homeTabs
         .map((element) => Expanded(
               child: Container(
-                  margin: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(5),
-                      top: ScreenUtil().setWidth(10)),
+                  padding: EdgeInsets.only(top: 5.0),
+                  margin: EdgeInsets.only(left: 10.0),
                   decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(ScreenUtil().setWidth(10)))),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
+                      Expanded(
+                          child: Text(
                         element.name,
-                        style: TextStyle(fontSize: ScreenUtil().setSp(25)),
-                      ),
-                      Text(
-                        element.subhead,
-                        style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+                        style: TextStyle(
+                          fontSize: ScreenUtil().setSp(24),
+                        ),
+                      )),
+                      Expanded(
+                        child: Text(
+                          element.subhead,
+                          style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+                        ),
                       )
                     ],
                   )),
@@ -169,14 +172,17 @@ class _HomePageState extends State<HomePage>
 
   _renderHomeNewsList(BuildContext ctx, int index) {
     var item = newsList[index];
-    return ListTile(
-        trailing: LoadImage(item.img),
-        title: Text(
-          item.title,
-          style: TextStyle(
-              color: Colors.black,
-              fontSize: ScreenUtil().setSp(23, allowFontScalingSelf: true)),
-        ));
+    return Container(
+      decoration: BoxDecoration(color: Colors.white),
+      child: ListTile(
+          trailing: LoadImage(item.img),
+          title: Text(
+            item.title,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: ScreenUtil().setSp(23, allowFontScalingSelf: true)),
+          )),
+    );
   }
 
   _renderHomeIcons() {
