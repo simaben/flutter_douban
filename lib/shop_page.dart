@@ -12,7 +12,7 @@ class ShopPage extends StatefulWidget {
 
 class _ShopPageState extends State<ShopPage> {
   List<BannerModel> banners = List();
-  var _scrollController = ScrollController(initialScrollOffset: 50.0);
+  var _scrollController = ScrollController();
   SwiperController _swiperController = SwiperController();
 
   @override
