@@ -6,7 +6,7 @@ class MinePage extends StatefulWidget {
   _MinePageState createState() => _MinePageState();
 }
 
-class _MinePageState extends State<MinePage> {
+class _MinePageState extends State<MinePage> with AutomaticKeepAliveClientMixin{
   var _scrollController = ScrollController();
 
   @override
@@ -306,4 +306,8 @@ class _MinePageState extends State<MinePage> {
   }
 
   void _onClick() {}
+
+  @override
+  bool get wantKeepAlive => true; //保持页面状态 重写方法
+
 }

@@ -1,8 +1,10 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyrefresh/easy_refresh.dart';
 import 'package:flutter_hello/constant.dart';
 import 'package:flutter_hello/model.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:flutter_hello/load_image.dart';
 
@@ -13,20 +15,19 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   List<BannerModel> banners = List();
   List<News> newsList = List();
   List<HomeIcon> homeIcons = List();
   List<HomeTab> homeTabs = List();
-  var _scrollController = ScrollController(initialScrollOffset: 50.0);
+  var _scrollController = ScrollController(initialScrollOffset: 0.0);
   EasyRefreshController _easyRefreshController = EasyRefreshController();
   SwiperController _swiperController = SwiperController();
 
-  double homeIconSpace = 0.0;
-  double homeTabSpace = 5.0;
-  double homeTabSize = 0.0;
-  double iconSize = 50.0;
   static const int ROW = 4;
+  double homeIconWidth = 0;
+  double homeIconSize = ScreenUtil().setWidth(80);
 
   @override
   void initState() {
@@ -45,10 +46,11 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
 
   @override
   Widget build(BuildContext context) {
-    homeIconSpace =
-        (MediaQuery.of(context).size.width - (iconSize * ROW)) / (ROW * 2);
-    homeTabSize = MediaQuery.of(context).size.width / ROW - homeTabSpace;
+    homeIconWidth = ScreenUtil.screenWidth / ROW;
+    LogUtil.v("homeIconWidth:$homeIconWidth");
+    LogUtil.v("homeIconSize/homeIconWidth:${homeIconSize / homeIconWidth}");
     return Scaffold(
+        backgroundColor: Constant.bgColor,
         appBar: AppBar(
           actions: <Widget>[
             IconButton(
@@ -69,7 +71,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: 150,
+                  height: ScreenUtil().setHeight(300),
                   child: Swiper(
                     key: UniqueKey(),
                     controller: _swiperController,
@@ -87,28 +89,32 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
                     loop: true,
                   ),
                 ),
-                SizedBox(
-                    height: 150,
+                Container(
+                    padding: EdgeInsets.only(top: 5.0),
+                    margin: EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    height: ScreenUtil().setHeight(300),
                     child: GridView.count(
+                      childAspectRatio: 1,
                       crossAxisCount: 2,
                       scrollDirection: Axis.horizontal,
-                      mainAxisSpacing: homeIconSpace,
-                      childAspectRatio: 1.0,
                       children: _renderHomeIcons(),
                     )),
                 SizedBox(
-                    height: 100,
+                    height: ScreenUtil().setHeight(150),
                     child: Row(
                       children: _renderHomeTabs(),
                     )),
                 SizedBox(
-                  height: 100,
+                  height: ScreenUtil().setHeight(200),
                   child: Swiper(
                     key: UniqueKey(),
                     itemBuilder: (BuildContext context, int index) {
                       return new Image.network(
                         banners[index].banner,
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       );
                     },
                     autoplay: false,
@@ -128,24 +134,36 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
               ],
             ),
           ),
-        )
-        );
+        ));
   }
 
   void _onClick() {}
 
   _renderHomeTabs() {
     return homeTabs
-        .map((element) => Container(
-            margin: EdgeInsets.only(left: homeTabSpace, top: 10),
-            decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(10.0))),
-            width: homeTabSize,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[Text(element.name), Text(element.subhead)],
-            )))
+        .map((element) => Expanded(
+              child: Container(
+                  margin: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(5),
+                      top: ScreenUtil().setWidth(10)),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(ScreenUtil().setWidth(10)))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        element.name,
+                        style: TextStyle(fontSize: ScreenUtil().setSp(25)),
+                      ),
+                      Text(
+                        element.subhead,
+                        style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+                      )
+                    ],
+                  )),
+            ))
         .toList();
   }
 
@@ -155,44 +173,35 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         trailing: LoadImage(item.img),
         title: Text(
           item.title,
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: ScreenUtil().setSp(23, allowFontScalingSelf: true)),
         ));
   }
 
   _renderHomeIcons() {
-   return homeIcons.map((element) => InkWell(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          LoadImage(
-            element.img,
-            width: iconSize,
-            height: iconSize,
-          ),
-          Text(element.name)
-        ],
-      ),
-    )).toList();
-
-//
-//    List<Widget> childList = List();
-//
-//
-//    homeIcons.forEach((element) {
-//      var child =  Column(
-//        mainAxisAlignment: MainAxisAlignment.center,
-//        children: <Widget>[
-//          LoadImage(
-//            element.img,
-//            width: iconSize,
-//            height: iconSize,
-//          ),
-//          Text(element.name)
-//        ],
-//      );
-//      childList.add(child);
-//    });
-//    return childList;
+    return homeIcons
+        .map((element) => Container(
+            width: homeIconWidth,
+            child: Column(
+              children: <Widget>[
+                LoadImage(
+                  element.img,
+                  width: homeIconSize,
+                  height: homeIconSize,
+                ),
+                Container(
+                  height: ScreenUtil().setHeight(40),
+                  child: Text(
+                    element.name,
+                    style: TextStyle(
+                        fontSize:
+                            ScreenUtil().setSp(22, allowFontScalingSelf: true)),
+                  ),
+                )
+              ],
+            )))
+        .toList();
   }
 
   void _getBanner() {
@@ -262,9 +271,7 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
     return null;
   }
 
-  _onLoad() {
-
-  }
+  _onLoad() {}
 
   @override
   bool get wantKeepAlive => true; //保持页面状态 重写方法

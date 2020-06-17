@@ -1,5 +1,5 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 
 void log2Console(Object object) {
   LogUtil.v(object);

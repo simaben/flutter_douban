@@ -1,7 +1,7 @@
 import 'dart:core';
+import 'package:common_utils/common_utils.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello/utils/http_error.dart';
 

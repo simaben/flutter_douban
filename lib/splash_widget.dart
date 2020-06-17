@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_hello/screen_utils.dart';
 import 'package:flutter_hello/container_page.dart';
+import 'package:flutter_hello/utils/sp_util.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashWidget extends StatefulWidget {
   SplashWidget({Key key}) : super(key: key);
@@ -14,6 +14,7 @@ class SplashWidget extends StatefulWidget {
 class _SplashWidgetState extends State<SplashWidget> {
   var container = ContainerPage();
   bool showAd;
+
   @override
   void initState() {
     super.initState();
@@ -22,6 +23,7 @@ class _SplashWidgetState extends State<SplashWidget> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, width: 750, height: 1334, allowFontScaling: true);
     return Stack(
       children: <Widget>[
         Offstage(
@@ -95,14 +97,13 @@ class _SplashWidgetState extends State<SplashWidget> {
                       ]),
                 )
               ]),
-              width: ScreenUtils.screenW(context),
-              height: ScreenUtils.screenH(context),
+              width: ScreenUtil.screenWidth,
+              height: ScreenUtil.screenHeight,
             ),
             offstage: !showAd)
       ],
     );
   }
-
 }
 
 class CountDownWidget extends StatefulWidget {

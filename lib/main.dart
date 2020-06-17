@@ -1,18 +1,19 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:dio/dio.dart';
-import 'package:flustars/flustars.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_hello/constant.dart';
 import 'package:flutter_hello/splash_widget.dart';
-import 'package:flutter_hello/utils/http_request.dart';
+import 'package:flutter_hello/utils/sp_util.dart';
+
 
 void main() {
   runApp(MyApp());
   if (Platform.isAndroid) {
     //设置Android头部的导航栏透明
     SystemUiOverlayStyle systemUiOverlayStyle =
-        SystemUiOverlayStyle(statusBarColor: Colors.transparent);
+    SystemUiOverlayStyle(statusBarColor: Colors.transparent);
     SystemChrome.setSystemUIOverlayStyle(systemUiOverlayStyle);
   }
 }
@@ -21,11 +22,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+
     return RestartWidget(
         child: MaterialApp(
-      theme: ThemeData(backgroundColor: Color.fromARGB(0, 244, 244, 244)),
-      home: Scaffold(resizeToAvoidBottomPadding: false, body: SplashWidget()),
-    ));
+          theme: ThemeData(backgroundColor: Colors.grey),
+          home: Scaffold(
+              resizeToAvoidBottomPadding: false, body: SplashWidget()),
+        ));
   }
 }
 
@@ -40,7 +43,7 @@ class RestartWidget extends StatefulWidget {
 
   static restartApp(BuildContext context) {
     final _RestartWidgetState state =
-        context.ancestorStateOfType(const TypeMatcher<_RestartWidgetState>());
+    context.ancestorStateOfType(const TypeMatcher<_RestartWidgetState>());
     state.restartApp();
   }
 
@@ -60,10 +63,12 @@ class _RestartWidgetState extends State<RestartWidget> {
   @override
   void initState() {
     super.initState();
+
     _initAsync();
     Constant.httpManager.init(
         baseUrl: "http://rap2.taobao.org:38080/app/mock/257536",
         interceptors: [LogInterceptor()]);
+    LogUtil.init(isDebug: true);
   }
 
   Future<void> _initAsync() async {

@@ -1,6 +1,6 @@
 import 'dart:collection';
 
-import 'package:flustars/flustars.dart';
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello/load_image.dart';
 
@@ -9,7 +9,7 @@ class ServicePage extends StatefulWidget {
   _ServicePageState createState() => _ServicePageState();
 }
 
-class _ServicePageState extends State<ServicePage> {
+class _ServicePageState extends State<ServicePage> with AutomaticKeepAliveClientMixin {
   Map<String, List<String>> tabSegments = Map();
   var currentIndex = 0;
   var _tabSelectedBorder =
@@ -142,4 +142,8 @@ class _ServicePageState extends State<ServicePage> {
           ),
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true; //保持页面状态 重写方法
+
 }

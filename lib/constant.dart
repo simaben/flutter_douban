@@ -25,4 +25,6 @@ class Constant {
       'http://vt1.doubanio.com/201903032315/702b9ad25c0da91e1c693e5e4dc5a86e/view/movie/M/302430864.mp4';
 
   static HttpManager httpManager = HttpManager();
+
+  static Color bgColor = Color.fromARGB(0, 244, 244, 244);
 }

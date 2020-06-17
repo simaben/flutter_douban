@@ -10,7 +10,8 @@ class ShopPage extends StatefulWidget {
   _ShopPageState createState() => _ShopPageState();
 }
 
-class _ShopPageState extends State<ShopPage> {
+class _ShopPageState extends State<ShopPage>
+    with AutomaticKeepAliveClientMixin {
   List<BannerModel> banners = List();
   var _scrollController = ScrollController();
   SwiperController _swiperController = SwiperController();
@@ -248,4 +249,8 @@ class _ShopPageState extends State<ShopPage> {
   }
 
   void _onClick() {}
+
+  @override
+  bool get wantKeepAlive => true; //保持页面状态 重写方法
+
 }
